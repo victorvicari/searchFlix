@@ -1,7 +1,7 @@
 # searchFlix
 Android App using TMDB API using clean architecture
 
-##Stack
+## Stack
 Android
 Kotlin
 Retrofit2
