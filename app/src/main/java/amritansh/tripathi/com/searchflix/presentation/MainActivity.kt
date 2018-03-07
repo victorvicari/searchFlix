@@ -15,7 +15,6 @@ import io.reactivex.disposables.CompositeDisposable
 
 class MainActivity : DaggerAppCompatActivity() {
 
-
     private val compositeDisposable by lazy { CompositeDisposable() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
