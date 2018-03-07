@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">SearchFlix</string>
+    <string name="app_label">SearchFlix</string>
 </resources>

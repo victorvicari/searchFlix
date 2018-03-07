@@ -8,5 +8,5 @@ import io.reactivex.Single
  */
 interface SearchMovieUseCase {
 
-    fun searchMovieUseCase(search:String,page:Int=1): Single<List<Movie>>
+    fun searchMovie(search:String, page:Int=1): Single<List<Movie>>
 }

@@ -24,9 +24,9 @@ import javax.inject.Singleton
 /**
  * Created by amritanshtripathi on 3/5/18.
  */
-private const val BASE_URL="https://api.themoviedb.org/3"
+private const val BASE_URL = "https://api.themoviedb.org/3/"
 
-@Module
+@Module(includes = arrayOf(ViewModelModule::class))
 class AppModule {
 
     @Provides
