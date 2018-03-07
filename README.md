@@ -1,5 +1,5 @@
 # searchFlix
-Android App using TMDB API using clean architecture
+Android App using TMDB API and clean architecture
 
 ## Stack
 1. Android
