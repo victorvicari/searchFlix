@@ -2,15 +2,10 @@
 Android App using TMDB API using clean architecture
 
 ## Stack
-Android
-
-Kotlin
-
-Retrofit2
-
-Dagger2
-
-Glide
-
-DataBinding
+1. Android
+2. Kotlin
+3. Retrofit2
+4. Dagger2
+5. Glide
+6. DataBinding
 
