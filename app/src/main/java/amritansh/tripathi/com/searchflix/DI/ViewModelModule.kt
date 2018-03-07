@@ -4,9 +4,9 @@ import amritansh.tripathi.com.searchflix.presentation.movieList.MovieListViewMod
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
-import dagger.multibindings.IntoMap
 import dagger.Binds
 import dagger.Module
+import dagger.multibindings.IntoMap
 
 
 /**

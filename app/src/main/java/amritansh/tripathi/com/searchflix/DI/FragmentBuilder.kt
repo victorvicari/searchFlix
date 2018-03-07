@@ -15,7 +15,7 @@ abstract class FragmentBuilder {
     @ContributesAndroidInjector
     internal abstract fun contributeMovieListFragment(): MovieListFragment
 
-//    @ContributesAndroidInjector
-//    internal abstract fun contributeMovieDetailFragment(): MovieDetailsFragment
+    @ContributesAndroidInjector
+    internal abstract fun contributeMovieDetailFragment(): MovieDetailsFragment
 
 }

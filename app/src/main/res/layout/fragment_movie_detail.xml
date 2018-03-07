@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="data"
+            type="amritansh.tripathi.com.searchflix.network.Movie" />
+    </data>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:imageUrl='@{"https://image.tmdb.org/t/p/w500/"+data.backdropPath}' />
+
+            <TextView
+                android:id="@+id/titleMovieDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="26sp"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:padding="4dp"
+                android:text="@{data.title}" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:padding="4dp"
+                android:justificationMode="inter_word"
+                android:text="@{data.description}" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>
+

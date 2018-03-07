@@ -1,7 +1,6 @@
 package amritansh.tripathi.com.searchflix.DI
 
 import amritansh.tripathi.com.searchflix.presentation.MainActivity
-import amritansh.tripathi.com.searchflix.presentation.movieList.MovieListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 

@@ -1,12 +1,12 @@
 package amritansh.tripathi.com.searchflix.domain.usecases
 
 import amritansh.tripathi.com.searchflix.network.Movie
-import io.reactivex.Single
+import io.reactivex.Observable
 
 /**
  * Created by amritanshtripathi on 3/5/18.
  */
 interface SearchMovieUseCase {
 
-    fun searchMovie(search:String, page:Int=1): Single<List<Movie>>
+    fun searchMovie(search: String?): Observable<List<Movie>>
 }
