@@ -78,5 +78,6 @@ class MainActivity : DaggerAppCompatActivity() {
     //TODO:8)ADD Test Cases
     //TODO:9)Add User Prefrences
     //TODO:10)Add Room
+    //TODO:11)Add empty states
 
 }
