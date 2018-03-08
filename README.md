@@ -1,5 +1,5 @@
 # searchFlix
-Android App using TMDB API using clean architecture
+Android App using TMDB API and clean architecture
 
 ## Stack
 1. Android
@@ -9,3 +9,14 @@ Android App using TMDB API using clean architecture
 5. Glide
 6. DataBinding
 
+## Getting Started
+
+Fork this repository and contribute back using pull requests to the master branch. 
+
+## Authors
+
+* **Amritansh Tripathi** - *Initial work*
+
+## License
+
+This project is licensed under MIT License.
