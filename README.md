@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tripathiamritansh/searchFlix.svg?branch=master)](https://travis-ci.org/tripathiamritansh/searchFlix)
+
 # searchFlix
 Android App using TMDB API and clean architecture
 
