@@ -31,10 +31,10 @@ ext {
     targetSdkVersion = 26
     compileSdkVersion = 26
     buildToolsVersion = "26.0.2"
-    supportLibraryVersion = "27.0.1"
+    supportLibraryVersion = "27.1.0"
 
     architectureComponentsVersion = "1.0.0"
-    daggerVersion = "2.13"
+    daggerVersion = "2.14.1"
     retrofitVersion = "2.3.0"
     okhttpVersion = "3.9.0"
     rxjavaVersion = "2.1.3"
