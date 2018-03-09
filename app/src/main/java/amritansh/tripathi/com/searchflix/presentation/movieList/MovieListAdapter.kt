@@ -3,8 +3,12 @@ package amritansh.tripathi.com.searchflix.presentation.movieList
 import amritansh.tripathi.com.searchflix.R
 import amritansh.tripathi.com.searchflix.databinding.ItemMovieListBinding
 import amritansh.tripathi.com.searchflix.network.Movie
+import android.app.Activity
+import android.content.Context
+import android.database.Observable
 import android.databinding.DataBindingUtil
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import io.reactivex.subjects.PublishSubject

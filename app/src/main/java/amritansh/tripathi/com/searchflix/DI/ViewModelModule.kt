@@ -1,5 +1,6 @@
 package amritansh.tripathi.com.searchflix.DI
 
+import amritansh.tripathi.com.searchflix.presentation.movieDetails.MovieDetailsViewModel
 import amritansh.tripathi.com.searchflix.presentation.movieList.MovieListViewModel
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
 import android.arch.lifecycle.ViewModel
@@ -20,6 +21,10 @@ abstract class ViewModelModule {
     @ViewModelKey(MovieListViewModel::class)
     internal abstract fun movieListViewModel(movieListViewModel: MovieListViewModel): ViewModel
 
+    @Binds
+    @IntoMap
+    @ViewModelKey(MovieDetailsViewModel::class)
+    internal abstract fun movieDetailViewModel(movieListViewModel: MovieDetailsViewModel): ViewModel
 
     @Binds
     internal abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

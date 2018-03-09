@@ -37,7 +37,7 @@ class MovieListFragment : DaggerFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_movie_list, container, false)
+        val view = inflater.inflate(R.layout.fragment_common, container, false)
         setUpRecyclerView(view)
         query = arguments?.get(QUERY_TAG) as? String
         disposable.add(
@@ -87,14 +87,6 @@ class MovieListFragment : DaggerFragment() {
                 ?.addToBackStack(this::class.java.name)
                 ?.commit()
 
-    }
-
-    private fun showProgressBar() {
-        Log.d("MovieList", "loading")
-    }
-
-    private fun hideProgressBar() {
-        Log.d("MovieList", "Hide loading")
     }
 
     companion object {
