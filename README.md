@@ -10,6 +10,7 @@ Android App using TMDB API and clean architecture
 4. Dagger2
 5. Glide
 6. DataBinding
+7. RxJava
 
 ## Getting Started
 
