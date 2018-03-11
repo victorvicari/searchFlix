@@ -41,5 +41,4 @@ data class Movie(
         @SerializedName("backdrop_path") val backdropPath: String
 ) : Parcelable, Item
 
-interface Item{
-}
+interface Item

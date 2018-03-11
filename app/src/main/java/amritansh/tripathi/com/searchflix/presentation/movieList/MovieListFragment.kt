@@ -1,10 +1,12 @@
 package amritansh.tripathi.com.searchflix.presentation.movieList
 
 import amritansh.tripathi.com.searchflix.R
+import amritansh.tripathi.com.searchflix.databinding.FragmentCommonBinding
 import amritansh.tripathi.com.searchflix.network.Movie
 import amritansh.tripathi.com.searchflix.presentation.movieDetails.MovieDetailsFragment
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.fragment_common.view.*
 import javax.inject.Inject
 
 /**
@@ -30,6 +33,7 @@ class MovieListFragment : DaggerFragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MovieListAdapter
     private var query: String? = null
+    private lateinit var binding: FragmentCommonBinding
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -37,12 +41,13 @@ class MovieListFragment : DaggerFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_common, container, false)
-        setUpRecyclerView(view)
+        binding = DataBindingUtil.inflate<FragmentCommonBinding>(inflater, R.layout.fragment_common, container, false)
+
+        setUpRecyclerView(binding.root)
         query = arguments?.get(QUERY_TAG) as? String
         disposable.add(
                 adapter.getClickObservable().subscribe(this::showMovieDetailFragment))
-        return view
+        return binding.root
 
     }
 
@@ -50,9 +55,13 @@ class MovieListFragment : DaggerFragment() {
         super.onStart()
         if (query == null) {
             disposable.add(viewModel.getMovieList()
+                    .doOnSubscribe({this.showLoading()})
+                    .doOnTerminate({this.hideLoading()})
                     .subscribe(this::onSuccess, this::onError))
         } else {
             disposable.add(viewModel.searchMovie(query)
+                    .doOnSubscribe({this.showLoading()})
+                    .doOnTerminate({this.hideLoading()})
                     .subscribe(this::onSuccess, this::onError))
         }
 
@@ -61,6 +70,16 @@ class MovieListFragment : DaggerFragment() {
     override fun onStop() {
         super.onStop()
         disposable.clear()
+    }
+
+    private fun showLoading(){
+        recyclerView.visibility=View.INVISIBLE
+        binding.loading.visibility=View.VISIBLE
+    }
+
+    private fun hideLoading(){
+        binding.loading.visibility=View.INVISIBLE
+        recyclerView.visibility=View.VISIBLE
     }
 
     private fun onSuccess(movieList: List<Movie>) {

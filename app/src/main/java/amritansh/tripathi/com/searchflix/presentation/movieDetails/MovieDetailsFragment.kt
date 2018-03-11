@@ -1,11 +1,12 @@
 package amritansh.tripathi.com.searchflix.presentation.movieDetails
 
 import amritansh.tripathi.com.searchflix.R
+import amritansh.tripathi.com.searchflix.databinding.FragmentCommonBinding
 import amritansh.tripathi.com.searchflix.network.Item
 import amritansh.tripathi.com.searchflix.network.Movie
-import amritansh.tripathi.com.searchflix.presentation.movieList.MovieListFragment
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
 import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -25,9 +26,10 @@ class MovieDetailsFragment : DaggerFragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
     private lateinit var viewModel: MovieDetailsViewModel
-    private lateinit var adapter:MovieDetailsAdapter
+    private lateinit var adapter: MovieDetailsAdapter
     private lateinit var recyclerView: RecyclerView
     private var disposable = CompositeDisposable()
+    private lateinit var binding: FragmentCommonBinding
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -36,11 +38,12 @@ class MovieDetailsFragment : DaggerFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_common, container, false)
-        setUpRecyclerView(view)
+        binding = DataBindingUtil.inflate<FragmentCommonBinding>(inflater, R.layout.fragment_common, container, false)
+        setUpRecyclerView(binding.root)
         disposable.add(
-                adapter.getClickObservable().subscribe(this::showMovieDetailFragment))
-        return view
+                adapter.getClickObservable()
+                        .subscribe(this::showMovieDetailFragment))
+        return binding.root
     }
 
     private fun setUpRecyclerView(view: View) {
@@ -53,7 +56,9 @@ class MovieDetailsFragment : DaggerFragment() {
     override fun onStart() {
         super.onStart()
         disposable.add(viewModel.getMovieDetailsData()
-                    .subscribe(this::onSuccess, this::onError))
+                .doOnSubscribe({ this.showLoading() })
+                .doOnTerminate({ this.hideLoading() })
+                .subscribe(this::onSuccess, this::onError))
     }
 
     override fun onStop() {
@@ -61,7 +66,17 @@ class MovieDetailsFragment : DaggerFragment() {
         disposable.clear()
     }
 
-    private fun onSuccess(items:List<Item>){
+    private fun showLoading() {
+        recyclerView.visibility = View.INVISIBLE
+        binding.loading.visibility = View.VISIBLE
+    }
+
+    private fun hideLoading() {
+        binding.loading.visibility = View.INVISIBLE
+        recyclerView.visibility = View.VISIBLE
+    }
+
+    private fun onSuccess(items: List<Item>) {
         adapter.setItems(items)
     }
 
