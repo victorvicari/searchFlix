@@ -72,13 +72,13 @@ class MovieListFragment : DaggerFragment() {
     }
 
     private fun showLoading() {
-        binding.error.visibility=View.INVISIBLE
+        binding.error.visibility = View.INVISIBLE
         recyclerView.visibility = View.INVISIBLE
         binding.loading.visibility = View.VISIBLE
     }
 
     private fun hideLoading() {
-        binding.error.visibility=View.INVISIBLE
+        binding.error.visibility = View.INVISIBLE
         binding.loading.visibility = View.INVISIBLE
         recyclerView.visibility = View.VISIBLE
     }
@@ -90,7 +90,7 @@ class MovieListFragment : DaggerFragment() {
     private fun onError(error: Throwable) {
         Log.e(TAG, "Unable to get movieList", error)
         recyclerView.visibility = View.INVISIBLE
-        binding.error.visibility=View.VISIBLE
+        binding.error.visibility = View.VISIBLE
     }
 
     private fun setUpRecyclerView(view: View) {
