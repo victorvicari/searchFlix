@@ -18,7 +18,7 @@ class MovieDetailsViewModel @Inject constructor(val movieDetailsUseCase: Similar
     fun getMovieDetailsData(): Observable<List<Item>> {
         var items = mutableListOf<Item>()
         items.add(movie)
-        return movieDetailsUseCase.getSimilarMovies(movie.id.toString()).map { it->items.plus(it) }
+        return movieDetailsUseCase.getSimilarMovies(movie.id.toString()).map { it -> items.plus(it) }
     }
 
 

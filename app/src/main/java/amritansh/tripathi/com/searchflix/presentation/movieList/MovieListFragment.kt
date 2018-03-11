@@ -16,7 +16,6 @@ import android.view.View
 import android.view.ViewGroup
 import dagger.android.support.DaggerFragment
 import io.reactivex.disposables.CompositeDisposable
-import kotlinx.android.synthetic.main.fragment_common.view.*
 import javax.inject.Inject
 
 /**
@@ -55,13 +54,13 @@ class MovieListFragment : DaggerFragment() {
         super.onStart()
         if (query == null) {
             disposable.add(viewModel.getMovieList()
-                    .doOnSubscribe({this.showLoading()})
-                    .doOnTerminate({this.hideLoading()})
+                    .doOnSubscribe({ this.showLoading() })
+                    .doOnTerminate({ this.hideLoading() })
                     .subscribe(this::onSuccess, this::onError))
         } else {
             disposable.add(viewModel.searchMovie(query)
-                    .doOnSubscribe({this.showLoading()})
-                    .doOnTerminate({this.hideLoading()})
+                    .doOnSubscribe({ this.showLoading() })
+                    .doOnTerminate({ this.hideLoading() })
                     .subscribe(this::onSuccess, this::onError))
         }
 
@@ -72,14 +71,14 @@ class MovieListFragment : DaggerFragment() {
         disposable.clear()
     }
 
-    private fun showLoading(){
-        recyclerView.visibility=View.INVISIBLE
-        binding.loading.visibility=View.VISIBLE
+    private fun showLoading() {
+        recyclerView.visibility = View.INVISIBLE
+        binding.loading.visibility = View.VISIBLE
     }
 
-    private fun hideLoading(){
-        binding.loading.visibility=View.INVISIBLE
-        recyclerView.visibility=View.VISIBLE
+    private fun hideLoading() {
+        binding.loading.visibility = View.INVISIBLE
+        recyclerView.visibility = View.VISIBLE
     }
 
     private fun onSuccess(movieList: List<Movie>) {

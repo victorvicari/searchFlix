@@ -28,7 +28,7 @@ interface ApiService {
 
 data class MovieResult(@SerializedName("results") val result: List<Movie>)
 
-data class SimilarMoviesResult(@SerializedName("results") val result: List<Movie>) :Item
+data class SimilarMoviesResult(@SerializedName("results") val result: List<Movie>) : Item
 
 @Parcelize
 data class Movie(

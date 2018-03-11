@@ -9,8 +9,8 @@ import javax.inject.Inject
 /**
  * Created by amritanshtripathi on 3/9/18.
  */
-class SimilarMoviesUseCase @Inject constructor(private val repository: Repository, private val schedulerProvider: SchedulerProvider)  {
-     fun getSimilarMovies(id:String) : Observable<SimilarMoviesResult>{
-         return repository.getSimilarMovies(id).compose(schedulerProvider.getSchedulersForSingle()).toObservable()
-     }
+class SimilarMoviesUseCase @Inject constructor(private val repository: Repository, private val schedulerProvider: SchedulerProvider) {
+    fun getSimilarMovies(id: String): Observable<SimilarMoviesResult> {
+        return repository.getSimilarMovies(id).compose(schedulerProvider.getSchedulersForSingle()).toObservable()
+    }
 }

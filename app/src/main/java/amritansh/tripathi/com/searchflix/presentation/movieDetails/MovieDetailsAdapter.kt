@@ -15,7 +15,8 @@ import io.reactivex.subjects.PublishSubject
 class MovieDetailsAdapter(var data: List<Item>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var delegatesManager = AdapterDelegatesManager<Any>()
-    private var horizontalScrollAdapterDelegate =HorizontalScrollAdapterDelegate()
+    private var horizontalScrollAdapterDelegate = HorizontalScrollAdapterDelegate()
+
     init {
         delegatesManager.addDelegate(MovieInformationAdapterDelegate())
         delegatesManager.addDelegate(horizontalScrollAdapterDelegate)
@@ -42,7 +43,7 @@ class MovieDetailsAdapter(var data: List<Item>) : RecyclerView.Adapter<RecyclerV
         notifyDataSetChanged()
     }
 
-    fun getClickObservable():PublishSubject<Movie>{
+    fun getClickObservable(): PublishSubject<Movie> {
         return horizontalScrollAdapterDelegate.getClickObservable()
     }
 }

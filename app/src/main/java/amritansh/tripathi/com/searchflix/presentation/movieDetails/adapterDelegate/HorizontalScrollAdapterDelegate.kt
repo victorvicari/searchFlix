@@ -51,7 +51,7 @@ class HorizontalScrollAdapterDelegate : AdapterDelegate<Any>() {
 
     private inner class ViewHolder(val binding: ItemHorizontalRvBinding) : RecyclerView.ViewHolder(binding.root)
 
-    fun getClickObservable():PublishSubject<Movie>{
+    fun getClickObservable(): PublishSubject<Movie> {
         return horizontalScrollAdapter.clickObservable
     }
 }

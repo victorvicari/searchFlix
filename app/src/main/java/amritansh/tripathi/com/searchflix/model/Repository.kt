@@ -19,7 +19,7 @@ class Repository @Inject constructor(private val apiService: ApiService) {
         return apiService.searchMovies(search)
     }
 
-    fun getSimilarMovies(id:String):Single<SimilarMoviesResult>{
+    fun getSimilarMovies(id: String): Single<SimilarMoviesResult> {
         return apiService.getSimilarMovies(id)
     }
 }

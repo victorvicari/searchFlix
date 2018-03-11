@@ -10,7 +10,7 @@ import javax.inject.Inject
 /**
  * Created by amritanshtripathi on 3/5/18.
  */
-class SearchMovieUseCase @Inject constructor(private val repository: Repository, private val schedulerProvider: SchedulerProvider)  {
+class SearchMovieUseCase @Inject constructor(private val repository: Repository, private val schedulerProvider: SchedulerProvider) {
     fun searchMovie(search: String?): Observable<List<Movie>> {
         return repository.search(search).compose(schedulerProvider.getSchedulersForSingle()).map { it: MovieResult -> it.result }.toObservable()
     }
