@@ -43,11 +43,7 @@ class MovieListAdapter(private var dataset: List<Movie>) : RecyclerView.Adapter<
 
 
     inner class ViewHolder(binding: ItemMovieListBinding) : RecyclerView.ViewHolder(binding.root) {
-        private var binding: ItemMovieListBinding
-
-        init {
-            this.binding = binding
-        }
+        private var binding: ItemMovieListBinding = binding
 
         fun bind(movie: Movie) {
             binding.data = movie

@@ -2,6 +2,7 @@ package amritansh.tripathi.com.searchflix.model
 
 import amritansh.tripathi.com.searchflix.network.ApiService
 import amritansh.tripathi.com.searchflix.network.MovieResult
+import amritansh.tripathi.com.searchflix.network.SimilarMoviesResult
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -16,5 +17,9 @@ class Repository @Inject constructor(private val apiService: ApiService) {
 
     fun search(search: String?): Single<MovieResult> {
         return apiService.searchMovies(search)
+    }
+
+    fun getSimilarMovies(id:String):Single<SimilarMoviesResult>{
+        return apiService.getSimilarMovies(id)
     }
 }
