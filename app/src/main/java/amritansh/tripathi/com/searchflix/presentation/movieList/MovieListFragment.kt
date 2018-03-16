@@ -44,8 +44,6 @@ class MovieListFragment : DaggerFragment() {
 
         setUpRecyclerView(binding.root)
         query = arguments?.get(QUERY_TAG) as? String
-        disposable.add(
-                adapter.getClickObservable().subscribe(this::showMovieDetailFragment))
         return binding.root
 
     }
@@ -53,15 +51,19 @@ class MovieListFragment : DaggerFragment() {
     override fun onStart() {
         super.onStart()
         if (query == null) {
-            disposable.add(viewModel.getMovieList()
+            disposable.addAll(viewModel.getMovieList()
                     .doOnSubscribe({ this.showLoading() })
                     .doOnTerminate({ this.hideLoading() })
-                    .subscribe(this::onSuccess, this::onError))
+                    .subscribe(this::onSuccess, this::onError),
+                    adapter.getClickObservable()
+                            .subscribe(this::showMovieDetailFragment))
         } else {
-            disposable.add(viewModel.searchMovie(query)
+            disposable.addAll(viewModel.searchMovie(query)
                     .doOnSubscribe({ this.showLoading() })
                     .doOnTerminate({ this.hideLoading() })
-                    .subscribe(this::onSuccess, this::onError))
+                    .subscribe(this::onSuccess, this::onError),
+                    adapter.getClickObservable()
+                            .subscribe(this::showMovieDetailFragment))
         }
 
     }
