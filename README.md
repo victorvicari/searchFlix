@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/tripathiamritansh/searchFlix.svg?branch=master)](https://travis-ci.org/tripathiamritansh/searchFlix)
+
 <img src="Images/image1.png" width="250"/> <img src="Images/image2.png" width="250"/> <img src="Images/image3.png" width="250"/>
 
 # searchFlix
