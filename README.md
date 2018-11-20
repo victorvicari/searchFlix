@@ -1,7 +1,9 @@
 [![Build Status](https://travis-ci.org/tripathiamritansh/searchFlix.svg?branch=master)](https://travis-ci.org/tripathiamritansh/searchFlix)
+<img src="Images/image1.png" width="250"/> <img src="Images/image2.png" width="250"/> <img src="Images/image3.png" width="250"/>
 
 # searchFlix
-Android App using TMDB API and clean architecture
+Search flix is an which uses the TMDb api use to fetch popular movies and list them in an Android App. The details of the movies can be seen by tapping on the movie. Each detail page has a movie image and movie description as well as a horizontally scrollable similar movies list.
+
 
 ## Stack
 1. Android
