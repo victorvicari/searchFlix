@@ -2,8 +2,7 @@
 <img src="Images/image1.png" width="250"/> <img src="Images/image2.png" width="250"/> <img src="Images/image3.png" width="250"/>
 
 # searchFlix
-Search flix is an which uses the TMDb api use to fetch popular movies and list them in an Android App. The details of the movies can be seen by tapping on the movie. Each detail page has a movie image and movie description as well as a horizontally scrollable similar movies list.
-
+Search flix is an application which uses the TMDb api to fetch popular movies and list them in an Android App. The details of the movies can be seen by tapping on the movie. Each detail page has a movie image and movie description as well as a horizontally scrollable similar movies list.
 
 ## Stack
 1. Android
