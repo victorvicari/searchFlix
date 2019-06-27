@@ -4,6 +4,7 @@ import amritansh.tripathi.com.searchflix.R
 import amritansh.tripathi.com.searchflix.databinding.FragmentCommonBinding
 import amritansh.tripathi.com.searchflix.network.Movie
 import amritansh.tripathi.com.searchflix.presentation.movieDetails.MovieDetailsFragment
+import amritansh.tripathi.com.searchflix.presentation.navigation.Navigator
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
@@ -26,6 +27,8 @@ class MovieListFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
+    @Inject
+    lateinit var navigator: Navigator
 
     private lateinit var viewModel: MovieListViewModel
     private val disposable = CompositeDisposable()
@@ -103,14 +106,11 @@ class MovieListFragment : DaggerFragment() {
     }
 
     private fun showMovieDetailFragment(movie: Movie) {
-        //TODO:Add to fragment Navigator
-        val fragmentManager = activity?.supportFragmentManager
-        fragmentManager?.beginTransaction()
-                ?.replace(R.id.contentFrame, MovieDetailsFragment.newInstance(movie), MovieDetailsFragment::class.java.name)
-                ?.setCustomAnimations(R.anim.abc_fade_in, R.anim.abc_fade_out)
-                ?.addToBackStack(this::class.java.name)
-                ?.commit()
-
+        activity?.let {
+            navigator.throughFrag(it,
+                    MovieDetailsFragment.newInstance(movie),
+                    MovieDetailsFragment::class.java.name)
+        }
     }
 
     companion object {

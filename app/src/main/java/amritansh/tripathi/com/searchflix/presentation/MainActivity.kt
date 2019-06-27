@@ -2,18 +2,23 @@ package amritansh.tripathi.com.searchflix.presentation
 
 import amritansh.tripathi.com.searchflix.R
 import amritansh.tripathi.com.searchflix.presentation.movieList.MovieListFragment
-import amritansh.tripathi.com.searchflix.utils.replaceFragment
+import amritansh.tripathi.com.searchflix.presentation.navigation.Navigator
 import android.app.SearchManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.SearchView
+import android.widget.Toast
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
+import javax.inject.Inject
 
 
 class MainActivity : DaggerAppCompatActivity() {
+
+    @Inject
+    lateinit var navigator: Navigator
 
     private val compositeDisposable by lazy { CompositeDisposable() }
 
@@ -41,6 +46,7 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     override fun onBackPressed() {
+        Toast.makeText(this, supportFragmentManager.backStackEntryCount.toString(), Toast.LENGTH_LONG).show()
         super.onBackPressed()
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
     }
@@ -48,18 +54,16 @@ class MainActivity : DaggerAppCompatActivity() {
     private fun handleIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
             val query = intent.getStringExtra(SearchManager.QUERY)
-            supportFragmentManager.findFragmentById(R.id.contentFrame)
-                    ?: MovieListFragment.newInstance(query).let {
-                        replaceFragment(R.id.contentFrame, it, MovieListFragment::class.java.name)
-                    }
+            navigator.setupFirstFrag(this,
+                    MovieListFragment.newInstance(query),
+                    MovieListFragment::class.java.name)
         }
     }
 
     private fun setupViewFragment() {
-        supportFragmentManager.findFragmentById(R.id.contentFrame)
-                ?: MovieListFragment.newInstance().let {
-                    replaceFragment(R.id.contentFrame, it, MovieListFragment::class.java.name)
-                }
+        navigator.setupFirstFrag(this,
+                MovieListFragment.newInstance(),
+                MovieListFragment::class.java.name)
     }
 
     override fun onDestroy() {
@@ -68,16 +72,15 @@ class MainActivity : DaggerAppCompatActivity() {
         compositeDisposable.dispose()
     }
 
-    //TODO:1)Add Fragment Navigator
-    //TODO:2)Add backstack management
-    //TODO:3)Add Loading progress bar
-    //TODO:4)Add pagination
-    //TODO:5)Add delegate Adapter
-    //TODO:6)Add Recommendations in Details
-    //TODO:7)Add UserManagement
-    //TODO:8)ADD Test Cases
-    //TODO:9)Add User Prefrences
-    //TODO:10)Add Room
-    //TODO:11)Add empty states
+    //TODO:1)Add backstack management
+    //TODO:2)Add Loading progress bar
+    //TODO:3)Add pagination
+    //TODO:4)Add delegate Adapter
+    //TODO:5)Add Recommendations in Details
+    //TODO:6)Add UserManagement
+    //TODO:7)ADD Test Cases
+    //TODO:8)Add User Prefrences
+    //TODO:9)Add Room
+    //TODO:10)Add empty states
 
 }
