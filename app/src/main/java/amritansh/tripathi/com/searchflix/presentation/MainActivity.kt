@@ -9,7 +9,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.widget.SearchView
-import android.widget.Toast
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -46,7 +45,6 @@ class MainActivity : DaggerAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        Toast.makeText(this, supportFragmentManager.backStackEntryCount.toString(), Toast.LENGTH_LONG).show()
         super.onBackPressed()
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out)
     }
@@ -72,15 +70,7 @@ class MainActivity : DaggerAppCompatActivity() {
         compositeDisposable.dispose()
     }
 
-    //TODO:1)Add backstack management
-    //TODO:2)Add Loading progress bar
-    //TODO:3)Add pagination
-    //TODO:4)Add delegate Adapter
-    //TODO:5)Add Recommendations in Details
-    //TODO:6)Add UserManagement
-    //TODO:7)ADD Test Cases
-    //TODO:8)Add User Prefrences
-    //TODO:9)Add Room
-    //TODO:10)Add empty states
+    //TODO:1)Add Recommendations in Details
+    //TODO:2)Add empty states
 
 }
