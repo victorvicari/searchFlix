@@ -3,15 +3,15 @@ package amritansh.tripathi.com.searchflix.presentation.movieList
 import amritansh.tripathi.com.searchflix.R
 import amritansh.tripathi.com.searchflix.databinding.FragmentCommonBinding
 import amritansh.tripathi.com.searchflix.network.Movie
+import amritansh.tripathi.com.searchflix.presentation.models.UiState
 import amritansh.tripathi.com.searchflix.presentation.movieDetails.MovieDetailsFragment
 import amritansh.tripathi.com.searchflix.presentation.navigation.Navigator
 import amritansh.tripathi.com.searchflix.utils.ViewModelFactory
+import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,45 +30,53 @@ class MovieListFragment : DaggerFragment() {
     @Inject
     lateinit var navigator: Navigator
 
-    private lateinit var viewModel: MovieListViewModel
-    private val disposable = CompositeDisposable()
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: MovieListAdapter
-    private var query: String? = null
+    private lateinit var adapter: MoviePagedListAdapter
     private lateinit var binding: FragmentCommonBinding
+    private val disposable = CompositeDisposable()
+    private var query: String? = null
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MovieListViewModel::class.java)
+    private val viewModel by lazy {
+        ViewModelProviders.of(this, viewModelFactory).get(MovieListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate<FragmentCommonBinding>(inflater, R.layout.fragment_common, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_common, container, false)
 
-        setUpRecyclerView(binding.root)
+        setUpRecyclerView()
         query = arguments?.get(QUERY_TAG) as? String
         return binding.root
-
     }
 
     override fun onStart() {
         super.onStart()
-        if (query == null) {
-            disposable.addAll(viewModel.getMovieList()
-                    .doOnSubscribe({ this.showLoading() })
-                    .doOnTerminate({ this.hideLoading() })
-                    .subscribe(this::onSuccess, this::onError),
-                    adapter.getClickObservable()
-                            .subscribe(this::showMovieDetailFragment))
-        } else {
+        if (query != null) {
             disposable.addAll(viewModel.searchMovie(query)
                     .doOnSubscribe({ this.showLoading() })
                     .doOnTerminate({ this.hideLoading() })
-                    .subscribe(this::onSuccess, this::onError),
+                    .subscribe({ onSuccess() }, { onError() }),
                     adapter.getClickObservable()
                             .subscribe(this::showMovieDetailFragment))
+        } else {
+            disposable.addAll(adapter.getClickObservable()
+                    .subscribe(this::showMovieDetailFragment))
         }
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.getState().observe(viewLifecycleOwner, Observer {
+            if (viewModel.listResult() && it == UiState.LOADING) {
+                showLoading()
+            } else if (viewModel.listResult() && it == UiState.ERROR) {
+                onError()
+            } else {
+                hideLoading()
+            }
+            if (!viewModel.listResult()) {
+                adapter.setState(it ?: UiState.COMPLETE)
+            }
+        })
     }
 
     override fun onStop() {
@@ -78,31 +86,35 @@ class MovieListFragment : DaggerFragment() {
 
     private fun showLoading() {
         binding.error.visibility = View.INVISIBLE
-        recyclerView.visibility = View.INVISIBLE
+        binding.myRecyclerView.visibility = View.INVISIBLE
         binding.loading.visibility = View.VISIBLE
     }
 
     private fun hideLoading() {
         binding.error.visibility = View.INVISIBLE
         binding.loading.visibility = View.INVISIBLE
-        recyclerView.visibility = View.VISIBLE
+        binding.myRecyclerView.visibility = View.VISIBLE
     }
 
-    private fun onSuccess(movieList: List<Movie>) {
-        adapter.setData(movieList)
+    private fun onSuccess() {
+        binding.error.visibility = View.INVISIBLE
     }
 
-    private fun onError(error: Throwable) {
-        Log.e(TAG, "Unable to get movieList", error)
-        recyclerView.visibility = View.INVISIBLE
+    private fun onError() {
+        binding.loading.visibility = View.INVISIBLE
+        binding.myRecyclerView.visibility = View.INVISIBLE
         binding.error.visibility = View.VISIBLE
+        binding.error.setOnClickListener { viewModel.retry() }
     }
 
-    private fun setUpRecyclerView(view: View) {
-        recyclerView = view.findViewById(R.id.my_recycler_view) as RecyclerView
-        recyclerView.layoutManager = LinearLayoutManager(this.context)
-        adapter = MovieListAdapter(ArrayList<Movie>(0))
-        recyclerView.adapter = adapter
+    private fun setUpRecyclerView() {
+        adapter = MoviePagedListAdapter { viewModel.retry() }
+        binding.myRecyclerView.layoutManager = LinearLayoutManager(context)
+        binding.myRecyclerView.adapter = adapter
+
+        viewModel.listPagedMovie.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 
     private fun showMovieDetailFragment(movie: Movie) {
@@ -132,6 +144,5 @@ class MovieListFragment : DaggerFragment() {
         private val TAG = MovieListFragment::class.java.simpleName
 
     }
-
 
 }

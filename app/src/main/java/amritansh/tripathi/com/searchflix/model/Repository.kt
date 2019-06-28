@@ -3,6 +3,7 @@ package amritansh.tripathi.com.searchflix.model
 import amritansh.tripathi.com.searchflix.network.ApiService
 import amritansh.tripathi.com.searchflix.network.MovieResult
 import amritansh.tripathi.com.searchflix.network.SimilarMoviesResult
+import io.reactivex.Flowable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -11,15 +12,10 @@ import javax.inject.Inject
  */
 class Repository @Inject constructor(private val apiService: ApiService) {
 
-    fun getPopularMovies(): Single<MovieResult> {
-        return apiService.getPopularMovies()
-    }
+    fun getPopularMovies(page: Int, pageSize: Int): Flowable<MovieResult> = apiService.getPopularMovies(page, pageSize)
 
-    fun search(search: String?): Single<MovieResult> {
-        return apiService.searchMovies(search)
-    }
+    fun search(search: String?): Single<MovieResult> = apiService.searchMovies(search)
 
-    fun getSimilarMovies(id: String): Single<SimilarMoviesResult> {
-        return apiService.getSimilarMovies(id)
-    }
+    fun getSimilarMovies(id: String): Single<SimilarMoviesResult> = apiService.getSimilarMovies(id)
+
 }
