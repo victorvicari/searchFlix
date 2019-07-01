@@ -6,9 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class Navigator @Inject constructor() {
 
     fun setupFirstFrag(ctx: AppCompatActivity, destination: Fragment, name: String) {
