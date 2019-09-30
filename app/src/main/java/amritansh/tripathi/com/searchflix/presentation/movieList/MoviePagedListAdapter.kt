@@ -1,21 +1,22 @@
 package amritansh.tripathi.com.searchflix.presentation.movieList
 
-import amritansh.tripathi.com.searchflix.R
 import amritansh.tripathi.com.searchflix.databinding.ItemMovieListBinding
 import amritansh.tripathi.com.searchflix.databinding.ItemMovieListFooterBinding
 import amritansh.tripathi.com.searchflix.network.Movie
 import amritansh.tripathi.com.searchflix.presentation.models.UiState
+import amritansh.tripathi.com.searchflix.presentation.movieList.view.FooterViewHolder
+import amritansh.tripathi.com.searchflix.presentation.movieList.view.MoviesViewHolder
 import android.arch.paging.PagedListAdapter
-import android.databinding.DataBindingUtil
 import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import io.reactivex.subjects.PublishSubject
 
-class MoviePagedListAdapter(private val retry: () -> Unit) :
-        PagedListAdapter<Movie, RecyclerView.ViewHolder>(MoviesDiffUtilCallback) {
+class MoviePagedListAdapter(
+        private val retry: () -> Unit
+) : PagedListAdapter<Movie, RecyclerView.ViewHolder>(MoviesDiffUtilCallback),
+        FooterViewHolder.Listener, MoviesViewHolder.Listener {
 
     private val DATA_TYPE = 1
     private val FOOTER_TYPE = 2
@@ -27,13 +28,11 @@ class MoviePagedListAdapter(private val retry: () -> Unit) :
         val inflater = LayoutInflater.from(parent.context)
 
         return if (viewType == DATA_TYPE) {
-            val bind = DataBindingUtil.inflate<ItemMovieListBinding>(inflater, R.layout.item_movie_list,
-                    parent, false)
-            MoviesViewHolder(bind)
+            val bind = ItemMovieListBinding.inflate(inflater, parent, false)
+            MoviesViewHolder(bind, this)
         } else {
-            val bind = DataBindingUtil.inflate<ItemMovieListFooterBinding>(inflater, R.layout.item_movie_list_footer,
-                    parent, false)
-            FooterViewHolder(bind)
+            val bind = ItemMovieListFooterBinding.inflate(inflater, parent, false)
+            FooterViewHolder(bind, this)
         }
     }
 
@@ -46,33 +45,30 @@ class MoviePagedListAdapter(private val retry: () -> Unit) :
 
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return if (position < super.getItemCount()) {
-            DATA_TYPE
-        } else {
-            FOOTER_TYPE
-        }
-    }
+    override fun getItemViewType(position: Int): Int =
+            if (position < super.getItemCount()) DATA_TYPE else FOOTER_TYPE
 
-    override fun getItemCount(): Int {
-        return super.getItemCount() + if (hasFooter()) {
-            1
-        } else {
-            0
-        }
-    }
 
-    private fun hasFooter(): Boolean {
-        return super.getItemCount() != 0 && (state == UiState.LOADING || state == UiState.ERROR)
-    }
+    override fun getItemCount(): Int =
+            super.getItemCount() + if (hasFooter()) 1 else 0
+
+    private fun hasFooter(): Boolean =
+            super.getItemCount() != 0 && (state == UiState.LOADING || state == UiState.ERROR)
+
 
     fun setState(uiState: UiState) {
         state = uiState
         notifyDataSetChanged()
     }
 
-    fun getClickObservable(): PublishSubject<Movie> {
-        return clickObservable
+    fun getClickObservable(): PublishSubject<Movie> = clickObservable
+
+    override fun loadRetry() {
+        retry()
+    }
+
+    override fun clickObservable(movie: Movie) {
+        clickObservable.onNext(movie)
     }
 
     companion object {
@@ -86,34 +82,6 @@ class MoviePagedListAdapter(private val retry: () -> Unit) :
             }
 
         }
-    }
-
-    inner class MoviesViewHolder(private val bind: ItemMovieListBinding) : RecyclerView.ViewHolder(bind.root) {
-        fun bindView(movie: Movie?) {
-            bind.data = movie
-            bind.root.setOnClickListener { clickObservable.onNext(movie!!) }
-        }
-    }
-
-    inner class FooterViewHolder(private val bind: ItemMovieListFooterBinding) :
-            RecyclerView.ViewHolder(bind.root) {
-        fun bindView(state: UiState) {
-            when (state) {
-                UiState.ERROR -> {
-                    bind.itemMovieFooterLoading.visibility = View.GONE
-                    bind.itemMovieFooterReloading.visibility = View.VISIBLE
-                }
-                UiState.LOADING -> {
-                    bind.itemMovieFooterLoading.visibility = View.VISIBLE
-                    bind.itemMovieFooterReloading.visibility = View.GONE
-                }
-                else -> {
-                    bind.root.visibility = View.GONE
-                }
-            }
-            bind.itemMovieFooterReloading.setOnClickListener { retry() }
-        }
-
     }
 
 }
