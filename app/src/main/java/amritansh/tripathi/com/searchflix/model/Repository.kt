@@ -3,7 +3,7 @@ package amritansh.tripathi.com.searchflix.model
 import amritansh.tripathi.com.searchflix.network.ApiService
 import amritansh.tripathi.com.searchflix.network.MovieResult
 import amritansh.tripathi.com.searchflix.network.SimilarMoviesResult
-import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import javax.inject.Inject
 
@@ -12,7 +12,7 @@ import javax.inject.Inject
  */
 class Repository @Inject constructor(private val apiService: ApiService) {
 
-    fun getPopularMovies(page: Int, pageSize: Int): Flowable<MovieResult> = apiService.getPopularMovies(page, pageSize)
+    fun getPopularMovies(page: Int, pageSize: Int): Observable<MovieResult> = apiService.getPopularMovies(page, pageSize)
 
     fun search(search: String?): Single<MovieResult> = apiService.searchMovies(search)
 
