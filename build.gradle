@@ -50,6 +50,9 @@ ext {
     rxRoomVersion = "1.1.1"
     reactiveStreamsVersion = "1.1.1"
 
+    paging_version = "2.1.0"
+    arch_runtime_version = "1.0.1"
+
     glideVersion = "4.9.0"
 
     jUnitVersion = "4.12"

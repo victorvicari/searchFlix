@@ -91,4 +91,7 @@ dependencies {
 
     compileOnly 'org.glassfish:javax.annotation:10.0-b28'
 
+    implementation "androidx.paging:paging-runtime:$rootProject.paging_version"
+    implementation "android.arch.paging:runtime:$rootProject.arch_runtime_version"
+
 }
